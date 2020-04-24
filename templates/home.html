@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Song downloader</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  </head>
+  <body>
+
+    {% include 'includes/_header.html' %}
+    <div class="container">
+      {% include 'includes/_messages.html' %}
+      <h1 class='text-primary header-text'> Let's download some songs </h1>
+      <div class="jumbotron text-center main-page">
+        <div class = accept-term>
+          <p> Enter the name of song you want to download </p>
+          <form action="" method="POST">
+            <div class="form-group text-primary">
+              <label class="main-page">Song name </label>
+              <input type="text" name="query" class="form-control" value={{request.form.query}}>
+              <br>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+
+      {% if data %}
+      <hr>
+      <p> Here are the results </p>
+
+      <div class = "results">
+        <img src="{{data.image}}" class="img-thumbnail img-rounded img-responsive">
+        <li class="list-group-item">Title : {{data.title}}</li>
+        <li class="list-group-item">Length : {{data.length}} seconds</li>
+        <li class="list-group-item">Rating : {{data.rating}}</li> <br>
+        <a href="{{url_for('download_file' , path = data.url )}}" class="btn btn-primary btn-lg">Download mp3</a>
+      </div>
+      {% endif %}
+
+      </div>
+    </div>
+
+          {% include 'includes/_footer.html'%}
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </body>
+
+</html>
+
+<style>
+.container{
+  background-color: #001f3f;
+  color: hsla(210, 100%, 75%, 1.0) !important;
+  width:100%;
+  align-content: center;
+  align-items: center;
+  display: inline-block;
+}
+.header-text{
+color: hsla(210, 100%, 75%, 1.0) !important;
+}
+
+.main-page{
+  background-color: #01FF70;
+  color:hsla(146, 100%, 20%, 1.0);
+  width:60%;
+  align-content: center;
+  align-items: center;
+  display: inline-block;
+}
+</style>

@@ -26,7 +26,7 @@ app.secret_key='secret123'
 
 data = dict()
 
-def downloader(query, using_api=False):
+def downloader(query):
     q_encode = urllib.parse.quote(query)
     URL = "https://www.youtube.com/results?search_query=" + q_encode
     r = requests.get(URL)
@@ -40,14 +40,6 @@ def downloader(query, using_api=False):
             link = 'https://youtube.com/watch?v=' + yid
             yt = YouTube(link)
 
-            if(using_api):
-                data['url'] = yt.streams.filter(only_audio=True)[0].url
-                data['title'] = yt.title
-                data['immage'] = yt.thumbnail_url
-                data['rating'] = yt.rating
-                data['length'] = yt.length
-                return data
-
             if yt.length <= 900:
 
                 vid_url = yt.streams.filter(only_audio=True)[0].url
@@ -55,12 +47,13 @@ def downloader(query, using_api=False):
                 out_file = video.download()
                 base, ext = os.path.splitext(out_file)
                 new_file = base + '.mp3'
+
                 data['url'] = video.default_filename[:-4] + '.mp3'
+                data['vid_url'] = vid_url
                 data['title'] = video.default_filename[:-4]
                 data['image'] = yt.thumbnail_url
                 data['rating'] = yt.rating
                 data['length'] = yt.length
-                data['vid_url'] = vid_url
 
                 try:
                     os.rename(out_file, new_file)
@@ -84,15 +77,14 @@ def index():
 @app.route('/api/getdata', methods=['POST'])
 def rest_api():
     data = request.get_json();
-    result = downloader(data['name'], using_api=True)
+    result = downloader(data['name'])
+    result['url']='https://la-musica.herokuapp.com/'+result['url']
     #print(result)
     return result  #Process Done
 
 @app.route('/api/check', methods=['GET'])
 def restapi_chech():
     return 'API is Working!'
-
-
 
 @app.route('/<path>')
 def download_file(path):

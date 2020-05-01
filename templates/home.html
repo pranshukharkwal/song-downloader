@@ -33,7 +33,7 @@
         <li class="list-group-item">Title : {{data.title}}</li>
         <li class="list-group-item">Length : {{data.length}} seconds</li>
         <li class="list-group-item">Rating : {{data.rating}}</li> <br>
-        <a href="{{data.vid_url}}" class="btn btn-primary btn-lg">Play now</a>
+        <a href="{{data.vid_url}}" target="_blank" class="btn btn-primary btn-lg">Play now</a>
         <a href="{{url_for('download_file' , path = data.url )}}" class="btn btn-primary btn-lg">Download mp3</a>
       </div>
       {% endif %}

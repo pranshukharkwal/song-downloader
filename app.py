@@ -69,6 +69,18 @@ def index():
     else:
         return render_template('home.html')
 
+@app.route('/api/getdata', methods=['POST'])
+def rest_api():
+    data = request.get_json();
+    result = downloader(data['name'])
+    #print(result)
+    return result  #Process Done
+
+@app.route('/api/check', methods=['GET'])
+def restapi_chech():
+    return 'API is Working!'
+
+
 
 @app.route('/<path>')
 def download_file(path):

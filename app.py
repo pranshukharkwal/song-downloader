@@ -26,7 +26,7 @@ app.secret_key='secret123'
 
 data = dict()
 
-def downloader(query):
+def downloader(query, using_api=False):
     q_encode = urllib.parse.quote(query)
     URL = "https://www.youtube.com/results?search_query=" + q_encode
     r = requests.get(URL)
@@ -39,6 +39,15 @@ def downloader(query):
             yid = video.get('data-context-item-id')
             link = 'https://youtube.com/watch?v=' + yid
             yt = YouTube(link)
+
+            if(using_api):
+                data['url'] = yt.streams.filter(only_audio=True)[0].url
+                data['title'] = yt.title
+                data['immage'] = yt.thumbnail_url
+                data['rating'] = yt.rating
+                data['length'] = yt.length
+                return data
+
             if yt.length <= 900:
                 video = yt.streams.filter(only_audio=True).first()
                 out_file = video.download()
@@ -68,6 +77,18 @@ def index():
         return render_template('home.html' , data = data)
     else:
         return render_template('home.html')
+
+@app.route('/api/getdata', methods=['POST'])
+def rest_api():
+    data = request.get_json();
+    result = downloader(data['name'], using_api=True)
+    #print(result)
+    return result  #Process Done
+
+@app.route('/api/check', methods=['GET'])
+def restapi_chech():
+    return 'API is Working!'
+
 
 
 @app.route('/<path>')

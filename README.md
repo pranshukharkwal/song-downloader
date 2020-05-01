@@ -1,4 +1,4 @@
 # song-downloader
 
-Trying to use this to create an android app which can use this and download a song.
-Addding a rest API!
+Added Rest APIs which gives the data of the song
+Also, added a check API to check if it working properly

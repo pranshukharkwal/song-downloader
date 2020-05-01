@@ -49,6 +49,8 @@ def downloader(query, using_api=False):
                 return data
 
             if yt.length <= 900:
+
+                vid_url = yt.streams.filter(only_audio=True)[0].url
                 video = yt.streams.filter(only_audio=True).first()
                 out_file = video.download()
                 base, ext = os.path.splitext(out_file)
@@ -58,6 +60,7 @@ def downloader(query, using_api=False):
                 data['image'] = yt.thumbnail_url
                 data['rating'] = yt.rating
                 data['length'] = yt.length
+                data['vid_url'] = vid_url
 
                 try:
                     os.rename(out_file, new_file)

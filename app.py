@@ -76,7 +76,7 @@ def download_by_url(yturl):
 
     if yt.length <= 900:
 
-        vid_url = yt.streams.filter(only_audio=True)[0].url
+        vid_url = yt.streams.filter()[0].url
         video = yt.streams.filter(only_audio=True).first()
         out_file = video.download()
         base, ext = os.path.splitext(out_file)

@@ -64,6 +64,40 @@ def downloader(query):
             else:
                 continue
 
+def download_by_url(yturl):
+
+    data = {}
+
+    try:
+        yt = YouTube(yturl)
+    except:
+        data['error'] = "Invalid Youtube Url!"
+        return data
+
+    if yt.length <= 900:
+
+        vid_url = yt.streams.filter(only_audio=True)[0].url
+        video = yt.streams.filter(only_audio=True).first()
+        out_file = video.download()
+        base, ext = os.path.splitext(out_file)
+        new_file = base + '.mp3'
+
+        data['url'] = 'https://la-musica.herokuapp.com/'+video.default_filename[:-4] + '.mp3'
+        data['vid_url'] = vid_url
+        data['title'] = video.default_filename[:-4]
+        data['image'] = yt.thumbnail_url
+        data['rating'] = yt.rating
+        data['length'] = yt.length
+
+        try:
+            os.rename(out_file, new_file)
+        except:
+            pass
+
+    else:
+        data['error'] = "Length exceeds 900 seconds"
+        data['length'] = yt.length
+    return data
 
 @app.route('/' , methods=['GET' , 'POST'])
 def index():
@@ -81,6 +115,13 @@ def rest_api():
     result['url']='https://la-musica.herokuapp.com/'+result['url']
     #print(result)
     return result  #Process Done
+
+@app.route('/api/getytlink', methods=['POST'])
+def test_api2():
+    data = request.get_json();
+    result = download_by_url(data['yturl'])
+    #print(result)
+    return result # Take care of error also
 
 @app.route('/api/check', methods=['GET'])
 def restapi_chech():

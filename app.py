@@ -83,6 +83,13 @@ def download_by_url(yturl):
 
     try:
         yt = YouTube(yturl)
+        cur = mysql.connection.cursor()
+        if cur.execute("select * from songs where song = %s" , (yt.title,)) > 0:
+            cur.execute("update songs set count = count + 1 where song = %s;" , (yt.title,))
+        else:
+            cur.execute("insert into songs(song) values(%s)",(yt.title,))
+        mysql.connection.commit()
+        cur.close()
     except:
         data['error'] = "Invalid Youtube Url!"
         return data

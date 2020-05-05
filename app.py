@@ -23,6 +23,12 @@ scheduler.start()
 
 app = Flask(__name__)
 app.secret_key='secret123'
+app.config['MYSQL_HOST'] = 'remotemysql.com'
+app.config['MYSQL_USER'] = 'JJFKCXD3CC'
+app.config['MYSQL_PASSWORD'] = 'us8bg5jdXp'
+app.config['MYSQL_DB'] = 'JJFKCXD3CC'
+app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+mysql = MySQL(app)
 
 data = dict()
 
@@ -39,6 +45,13 @@ def downloader(query):
             yid = video.get('data-context-item-id')
             link = 'https://youtube.com/watch?v=' + yid
             yt = YouTube(link)
+            cur = mysql.connection.cursor()
+            if cur.execute("select * from songs where song = %s" , (yt.title,)) > 0:
+                cur.execute("update songs set count = count + 1 where song = %s;" , (yt.title,))
+            else:
+                cur.execute("insert into songs(song) values(%s)",(yt.title,))
+            mysql.connection.commit()
+            cur.close()
 
             if yt.length <= 900:
 

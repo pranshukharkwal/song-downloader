@@ -143,6 +143,20 @@ def test_api2():
     #print(result)
     return result # Take care of error also
 
+@app.route('/api/getdownloads', methods=['GET'])
+def rest_api3():
+    cur = mysql.connection.cursor()
+    songslst = []
+    cur.execute("SELECT * from songs")
+    for x in cur.fetchall():
+        songslst.append(x)
+    
+    #print(songslst)
+
+    data = { "list": songslst }
+    #songslst is the list of song names in String
+    return data
+
 @app.route('/api/check', methods=['GET'])
 def restapi_chech():
     return 'API is Working!'

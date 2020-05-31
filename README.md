@@ -85,29 +85,29 @@ There are three kinds of methods which you can use. Let's see how to use them.
 > `{"name":"Song Name"}`
  - Response - (For sucessful calls)
 
-> data = { 
+> `data = { 
 > "url" : "Link to download/stream the song", 
 > "image" : "Link to the thumbnail",
 > 	"title" : "Title of the song",
 >  "length" : "Song length in seconds",
 >  "rating" : "Song ratings" 
->  } 
+>  }`
  
  ### Method to get song download links using Youtube link
  - Method - getytlink
  - Type - POST
  - URL - http://la-musica.herokuapp.com/api/getytlink
  - Send query data in JSON format
-> {"ytlink":"Song Link"}
+> `{"ytlink":"Song Link"}`
  - Response - (For sucessful calls)
-> data = { 
+> `data = { 
 > "url" : "Link to download/stream the song", 
 > "vid_url" : "The video url for downloading it",
 > "image" : "Link to the thumbnail",
 > 	"title" : "Title of the song",
 >  "length" : "Song length in seconds",
 >  "rating" : "Song ratings" 
->  } 
+>  }`
 								
 
 If you create something using the API created above, do let us know and we would happy to list it here. 

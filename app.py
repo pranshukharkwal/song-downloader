@@ -44,6 +44,7 @@ def downloader(query):
         else:
             yid = video.get('data-context-item-id')
             link = 'https://youtube.com/watch?v=' + yid
+            print(link)
             yt = YouTube(link)
             cur = mysql.connection.cursor()
             if cur.execute("select * from songs where song = %s" , (yt.title,)) > 0:
@@ -150,7 +151,7 @@ def rest_api3():
     cur.execute("SELECT * from songs")
     for x in cur.fetchall():
         songslst.append(x)
-    
+
     #print(songslst)
 
     data = { "list": songslst }

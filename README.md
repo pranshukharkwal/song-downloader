@@ -111,6 +111,6 @@ There are three kinds of methods which you can use. Let's see how to use them.
 								
 
 If you create something using the API created above, do let us know and we would happy to list it here. 
-    
+Please follow basic commit rules and write meaningful commit messages.   
 
         

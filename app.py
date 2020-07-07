@@ -82,12 +82,14 @@ def download_by_url(yturl):
 
 
 def downloader(query):
+    data = {}
+
     youtube = build('youtube', 'v3', developerKey=api_key)
-    print(type(youtube))
+    # print(type(youtube))
 
     req = youtube.search().list(part="snippet", q=query, type="video")
 
-    print(type(req))
+    # print(type(req))
 
     res = req.execute()
 
@@ -99,13 +101,41 @@ def downloader(query):
         sharedVideoUrl = 'https://youtu.be/' + row['id']['videoId']
         print("sharedVideoUrl ", sharedVideoUrl)
 
-        data = download_by_url(sharedVideoUrl) # The url, it is giving is correct
+        yt = YouTube(sharedVideoUrl)
 
-        if 'error' in data:
-            continue
+        if yt.length <= 900:
 
-        # print(data)
-        return data
+            # update database
+            cur = mysql.connection.cursor()
+            if cur.execute("select * from songs where song = %s" , (yt.title,)) > 0:
+                cur.execute("update songs set count = count + 1 where song = %s;" , (yt.title,))
+            else:
+                cur.execute("insert into songs(song) values(%s)",(yt.title,))
+            mysql.connection.commit()
+            cur.close()
+
+            # using it how it was previous before
+            vid_url = yt.streams.filter(only_audio=True)[0].url
+            video = yt.streams.filter(only_audio=True).first()
+            out_file = video.download()
+            base, ext = os.path.splitext(out_file)
+            new_file = base + '.mp3'
+
+            data['url'] = video.default_filename[:-4] + '.mp3'
+            data['vid_url'] = vid_url
+            data['title'] = video.default_filename[:-4]
+            data['image'] = yt.thumbnail_url
+            data['rating'] = yt.rating
+            data['length'] = yt.length
+
+            try:
+                os.rename(out_file, new_file)
+            except:
+                pass
+            return data
+            break
+        continue
+
     return data
 
     # URL = "https://www.youtube.com/results?search_query=" + q_encode
@@ -120,37 +150,8 @@ def downloader(query):
     #         link = 'https://youtube.com/watch?v=' + yid
     #         print(link)
     #         yt = YouTube(link)
-    #         cur = mysql.connection.cursor()
-    #         if cur.execute("select * from songs where song = %s" , (yt.title,)) > 0:
-    #             cur.execute("update songs set count = count + 1 where song = %s;" , (yt.title,))
-    #         else:
-    #             cur.execute("insert into songs(song) values(%s)",(yt.title,))
-    #         mysql.connection.commit()
-    #         cur.close()
 
-    #         if yt.length <= 900:
 
-    #             vid_url = yt.streams.filter(only_audio=True)[0].url
-    #             video = yt.streams.filter(only_audio=True).first()
-    #             out_file = video.download()
-    #             base, ext = os.path.splitext(out_file)
-    #             new_file = base + '.mp3'
-
-    #             data['url'] = video.default_filename[:-4] + '.mp3'
-    #             data['vid_url'] = vid_url
-    #             data['title'] = video.default_filename[:-4]
-    #             data['image'] = yt.thumbnail_url
-    #             data['rating'] = yt.rating
-    #             data['length'] = yt.length
-
-    #             try:
-    #                 os.rename(out_file, new_file)
-    #             except:
-    #                 pass
-    #             return data
-    #             break
-    #         else:
-    #             continue
 
 @app.route('/' , methods=['GET' , 'POST'])
 def index():

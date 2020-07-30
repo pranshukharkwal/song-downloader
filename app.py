@@ -13,7 +13,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 # For the youtube apis
 from googleapiclient.discovery import build
 
-api_key = "AIzaSyC7afHlX2KCUytDiW2uJC71L3TuHtbz3Bw"
+api_key = "AIzaSyASrsYEpNv9snbGjnilTRD4pWOBZXpOi1k"
 # End of the youtube apis
 
 def clear():

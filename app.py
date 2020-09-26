@@ -232,7 +232,7 @@ def rest_api4():
         youtube = build('youtube', 'v3', developerKey=api_key)
         # print(type(youtube))
 
-        req = youtube.search().list(part="snippet", q=query, type="video")
+        req = youtube.search().list(part="snippet", q=name, type="video")
 
         # print(type(req))
 

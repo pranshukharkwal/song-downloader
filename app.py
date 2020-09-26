@@ -1,5 +1,5 @@
 from flask import Flask, render_template, flash, redirect, url_for, session, request, logging, send_file
-from flask_mysqldb import MySQL
+# from flask_mysqldb import MySQL
 from functools import wraps
 import requests
 from bs4 import BeautifulSoup
@@ -31,12 +31,12 @@ scheduler.start()
 
 app = Flask(__name__)
 app.secret_key = 'secret123'
-app.config['MYSQL_HOST'] = 'remotemysql.com'
-app.config['MYSQL_USER'] = 'JJFKCXD3CC'
-app.config['MYSQL_PASSWORD'] = 'us8bg5jdXp'
-app.config['MYSQL_DB'] = 'JJFKCXD3CC'
-app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
-mysql = MySQL(app)
+# app.config['MYSQL_HOST'] = 'remotemysql.com'
+# app.config['MYSQL_USER'] = 'JJFKCXD3CC'
+# app.config['MYSQL_PASSWORD'] = 'us8bg5jdXp'
+# app.config['MYSQL_DB'] = 'JJFKCXD3CC'
+# app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+# mysql = MySQL(app)
 
 data = dict()
 
@@ -47,14 +47,14 @@ def download_by_url(yturl):
 
     try:
         yt = YouTube(yturl)
-        cur = mysql.connection.cursor()
-        if cur.execute("select * from songs where song = %s", (yt.title,)) > 0:
-            cur.execute(
-                "update songs set count = count + 1 where song = %s;", (yt.title,))
-        else:
-            cur.execute("insert into songs(song) values(%s)", (yt.title,))
-        mysql.connection.commit()
-        cur.close()
+        # cur = mysql.connection.cursor()
+        # if cur.execute("select * from songs where song = %s", (yt.title,)) > 0:
+        #     cur.execute(
+        #         "update songs set count = count + 1 where song = %s;", (yt.title,))
+        # else:
+        #     cur.execute("insert into songs(song) values(%s)", (yt.title,))
+        # mysql.connection.commit()
+        # cur.close()
     except:
         data['error'] = "Invalid Youtube Url!"
         return data
@@ -110,15 +110,15 @@ def downloader(query):
 
         if yt.length <= 900:
 
-            # update database
-            cur = mysql.connection.cursor()
-            if cur.execute("select * from songs where song = %s", (yt.title,)) > 0:
-                cur.execute(
-                    "update songs set count = count + 1 where song = %s;", (yt.title,))
-            else:
-                cur.execute("insert into songs(song) values(%s)", (yt.title,))
-            mysql.connection.commit()
-            cur.close()
+            # # update database
+            # cur = mysql.connection.cursor()
+            # if cur.execute("select * from songs where song = %s", (yt.title,)) > 0:
+            #     cur.execute(
+            #         "update songs set count = count + 1 where song = %s;", (yt.title,))
+            # else:
+            #     cur.execute("insert into songs(song) values(%s)", (yt.title,))
+            # mysql.connection.commit()
+            # cur.close()
 
             # using it how it was previous before
             vid_url = yt.streams.filter(only_audio=True)[0].url
@@ -186,19 +186,19 @@ def test_api2():
     return result  # Take care of error also
 
 
-@app.route('/api/getdownloads', methods=['GET'])
-def rest_api3():
-    cur = mysql.connection.cursor()
-    songslst = []
-    cur.execute("SELECT * from songs")
-    for x in cur.fetchall():
-        songslst.append(x)
+# @app.route('/api/getdownloads', methods=['GET'])
+# def rest_api3():
+#     cur = mysql.connection.cursor()
+#     songslst = []
+#     cur.execute("SELECT * from songs")
+#     for x in cur.fetchall():
+#         songslst.append(x)
 
-    # print(songslst)
+#     # print(songslst)
 
-    data = {"list": songslst}
-    # songslst is the list of song names in String
-    return data
+#     data = {"list": songslst}
+#     # songslst is the list of song names in String
+#     return data
 
 
 '''

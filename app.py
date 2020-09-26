@@ -213,6 +213,7 @@ Response
 	"success": 1 or 0,
 	"url": "The video url",
 	"error_msg": "Only in case of succes not equal to 1"
+    "sharedVideoUrl": "The youtube sharable link"
 }
 '''
 
@@ -224,6 +225,7 @@ def rest_api4():
 
     data = {}
     data['url'] = ''
+    data['sharedVideoUrl'] = ''
 
     try:
 
@@ -251,6 +253,7 @@ def rest_api4():
                 vid_url = yt.streams.filter(only_audio=True)[0].url
                 data['url'] = vid_url
                 data['success'] = 1
+                data['sharedVideoUrl'] = sharedVideoUrl
 
         data['success'] = 1
     except Exception as e:

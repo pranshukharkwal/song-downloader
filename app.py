@@ -214,6 +214,7 @@ Response
 	"url": "The video url",
 	"error_msg": "Only in case of succes not equal to 1"
     "sharedVideoUrl": "The youtube sharable link"
+    image, rating, length
 }
 '''
 
@@ -254,6 +255,9 @@ def rest_api4():
                 data['url'] = vid_url
                 data['success'] = 1
                 data['sharedVideoUrl'] = sharedVideoUrl
+		data['image'] = yt.thumbnail_url
+                data['rating'] = yt.rating
+                data['length'] = yt.length
 
         data['success'] = 1
     except Exception as e:

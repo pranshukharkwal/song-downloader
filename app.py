@@ -10,6 +10,8 @@ import time
 import atexit
 from apscheduler.schedulers.background import BackgroundScheduler
 
+from flask_cors import CORS
+
 # For the youtube apis
 from googleapiclient.discovery import build
 
@@ -31,6 +33,7 @@ scheduler.start()
 
 app = Flask(__name__)
 app.secret_key = 'secret123'
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 # app.config['MYSQL_HOST'] = 'remotemysql.com'
 # app.config['MYSQL_USER'] = 'JJFKCXD3CC'
 # app.config['MYSQL_PASSWORD'] = 'us8bg5jdXp'

@@ -15,7 +15,7 @@ from flask_cors import CORS
 # For the youtube apis
 from googleapiclient.discovery import build
 
-api_key = "AIzaSyASrsYEpNv9snbGjnilTRD4pWOBZXpOi1k"
+api_key = "AIzaSyBwTC2WNpOgjEInEAksbeVExI7vj9KqJUo"
 # End of the youtube apis
 
 

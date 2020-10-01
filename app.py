@@ -12,6 +12,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 
 from dotenv import load_dotenv
 load_dotenv()
+from flask_cors import CORS
 
 # For the youtube apis
 from googleapiclient.discovery import build
@@ -37,6 +38,7 @@ scheduler.start()
 
 app = Flask(__name__)
 app.secret_key = 'secret123'
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 # app.config['MYSQL_HOST'] = 'remotemysql.com'
 # app.config['MYSQL_USER'] = 'JJFKCXD3CC'
 # app.config['MYSQL_PASSWORD'] = 'us8bg5jdXp'
@@ -220,6 +222,7 @@ Response
 	"url": "The video url",
 	"error_msg": "Only in case of succes not equal to 1"
     "sharedVideoUrl": "The youtube sharable link"
+    image, rating, length
 }
 '''
 
@@ -260,6 +263,9 @@ def rest_api4():
                 data['url'] = vid_url
                 data['success'] = 1
                 data['sharedVideoUrl'] = sharedVideoUrl
+                data['image'] = yt.thumbnail_url
+                data['rating'] = yt.rating
+                data['length'] = yt.length
 
         data['success'] = 1
     except Exception as e:

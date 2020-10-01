@@ -141,6 +141,7 @@ def downloader(query):
             data['image'] = yt.thumbnail_url
             data['rating'] = yt.rating
             data['length'] = yt.length
+            data['sharedVideoUrl'] = sharedVideoUrl
 
             try:
                 os.rename(out_file, new_file)
@@ -181,7 +182,7 @@ def index():
 def rest_api():
     data = request.get_json()
     result = downloader(data['name'])
-    result['url'] = 'https://la-musica.herokuapp.com/'+result['url']
+    result['url'] = 'https://musicbaazi.herokuapp.com/'+result['url']
     # print(result)
     return result  # Process Done
 

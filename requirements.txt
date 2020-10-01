@@ -21,4 +21,5 @@ APScheduler==3.6.3
 google-api-python-client
 google-auth-httplib2
 google-auth-oauthlib
+python-dotenv
 flask-cors

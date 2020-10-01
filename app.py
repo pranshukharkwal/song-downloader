@@ -10,12 +10,17 @@ import time
 import atexit
 from apscheduler.schedulers.background import BackgroundScheduler
 
+from dotenv import load_dotenv
+load_dotenv()
 from flask_cors import CORS
 
 # For the youtube apis
 from googleapiclient.discovery import build
 
-api_key = "AIzaSyBwTC2WNpOgjEInEAksbeVExI7vj9KqJUo"
+api_key = os.getenv("GOOGLE_API_KEY")
+print("API KEY got", api_key)
+
+
 # End of the youtube apis
 
 

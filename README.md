@@ -66,20 +66,20 @@ There are the two main functions, which handle two types of downloading queries.
 ## API Documentation
 If you are a developer, and you use some other language other than Python, you might not be able to use the Pytube library. We have created an API for this project, so that you can download the files using our server, no matter in which language you code in.
 
-BASE URL : http://la-musica.herokuapp.com/api/ + methods
+BASE URL : http://musicbaazi.azurewebsites.net//api/ + methods
 
 There are three kinds of methods which you can use. Let's see how to use them. 
 
 ### Method to check if the API is working or not
  - Method - check
  - Type - GET
- - URL - http://la-musica.herokuapp.com/api/check
+ - URL - http://musicbaazi.azurewebsites.net//api/check
  - Response - "API is working!" on successful calls
  
 ### Method to get song links using queries/song-name
  - Method - getdata
  - Type - POST
- - URL - http://la-musica.herokuapp.com/api/getdata
+ - URL - http://musicbaazi.azurewebsites.net//api/getdata
  - Send query data in JSON format
 
 > `{"name":"Song Name"}`
@@ -96,7 +96,7 @@ There are three kinds of methods which you can use. Let's see how to use them.
  ### Method to get song download links using Youtube link
  - Method - getytlink
  - Type - POST
- - URL - http://la-musica.herokuapp.com/api/getytlink
+ - URL - http://musicbaazi.azurewebsites.net//api/getytlink
  - Send query data in JSON format
 > `{"ytlink":"Song Link"}`
  - Response - (For sucessful calls)
@@ -108,6 +108,7 @@ There are three kinds of methods which you can use. Let's see how to use them.
 >  "length" : "Song length in seconds",
 >  "rating" : "Song ratings" 
 >  }`
+
 								
 
 If you create something using the API created above, do let us know and we would happy to list it here. 

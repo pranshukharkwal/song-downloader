@@ -15,7 +15,7 @@ pyparsing==2.4.2
 git+https://gitlab.com/obuilds/public/pytube@ob-v1
 requests==2.22.0
 requests-oauthlib==1.3.0
-urllib3==1.24.2
+urllib3==1.26.5
 WTForms==2.2.1
 APScheduler==3.6.3
 google-api-python-client
